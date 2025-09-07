@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from './AuthContext';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };
@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
   // Load cart from localStorage for guest users
   useEffect(() => {
     if (!user) {
-      const savedCart = localStorage.getItem('guestCart');
+      const savedCart = localStorage.getItem("guestCart");
       if (savedCart) {
         setCart(JSON.parse(savedCart));
       }
@@ -36,13 +36,13 @@ export const CartProvider = ({ children }) => {
 
   const loadCart = async () => {
     if (!user) return;
-    
+
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/api/cart');
+      const response = await axios.get("http://localhost:5000/api/cart");
       setCart(response.data.cart);
     } catch (error) {
-      console.error('Failed to load cart:', error);
+      console.error("Failed to load cart:", error);
     }
     setLoading(false);
   };
@@ -53,26 +53,31 @@ export const CartProvider = ({ children }) => {
       quantity: 1,
       title: product.title,
       price: product.price,
-      image: product.thumbnail
+      image: product.thumbnail,
     };
 
     if (user) {
       // Add to server cart
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:5000/api/cart/add', cartItem);
+        const response = await axios.post(
+          "http://localhost:5000/api/cart/add",
+          cartItem
+        );
         setCart(response.data.cart);
       } catch (error) {
-        console.error('Failed to add to cart:', error);
+        console.error("Failed to add to cart:", error);
       }
       setLoading(false);
     } else {
       // Add to local cart
-      const existingItem = cart.find(item => item.productId === cartItem.productId);
+      const existingItem = cart.find(
+        (item) => item.productId === cartItem.productId
+      );
       let newCart;
-      
+
       if (existingItem) {
-        newCart = cart.map(item =>
+        newCart = cart.map((item) =>
           item.productId === cartItem.productId
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -80,9 +85,9 @@ export const CartProvider = ({ children }) => {
       } else {
         newCart = [...cart, cartItem];
       }
-      
+
       setCart(newCart);
-      localStorage.setItem('guestCart', JSON.stringify(newCart));
+      localStorage.setItem("guestCart", JSON.stringify(newCart));
     }
   };
 
@@ -90,22 +95,23 @@ export const CartProvider = ({ children }) => {
     if (user) {
       setLoading(true);
       try {
-        const response = await axios.put(`http://localhost:5000/api/cart/update/${productId}`, {
-          quantity
-        });
+        const response = await axios.put(
+          `http://localhost:5000/api/cart/update/${productId}`,
+          {
+            quantity,
+          }
+        );
         setCart(response.data.cart);
       } catch (error) {
-        console.error('Failed to update cart:', error);
+        console.error("Failed to update cart:", error);
       }
       setLoading(false);
     } else {
-      const newCart = cart.map(item =>
-        item.productId === productId
-          ? { ...item, quantity }
-          : item
+      const newCart = cart.map((item) =>
+        item.productId === productId ? { ...item, quantity } : item
       );
       setCart(newCart);
-      localStorage.setItem('guestCart', JSON.stringify(newCart));
+      localStorage.setItem("guestCart", JSON.stringify(newCart));
     }
   };
 
@@ -113,16 +119,18 @@ export const CartProvider = ({ children }) => {
     if (user) {
       setLoading(true);
       try {
-        const response = await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`);
+        const response = await axios.delete(
+          `http://localhost:5000/api/cart/remove/${productId}`
+        );
         setCart(response.data.cart);
       } catch (error) {
-        console.error('Failed to remove from cart:', error);
+        console.error("Failed to remove from cart:", error);
       }
       setLoading(false);
     } else {
-      const newCart = cart.filter(item => item.productId !== productId);
+      const newCart = cart.filter((item) => item.productId !== productId);
       setCart(newCart);
-      localStorage.setItem('guestCart', JSON.stringify(newCart));
+      localStorage.setItem("guestCart", JSON.stringify(newCart));
     }
   };
 
@@ -130,15 +138,17 @@ export const CartProvider = ({ children }) => {
     if (user) {
       setLoading(true);
       try {
-        const response = await axios.delete('http://localhost:5000/api/cart/clear');
+        const response = await axios.delete(
+          "http://localhost:5000/api/cart/clear"
+        );
         setCart(response.data.cart);
       } catch (error) {
-        console.error('Failed to clear cart:', error);
+        console.error("Failed to clear cart:", error);
       }
       setLoading(false);
     } else {
       setCart([]);
-      localStorage.removeItem('guestCart');
+      localStorage.removeItem("guestCart");
     }
   };
 
@@ -147,7 +157,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartTotal = () => {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const value = {
@@ -158,12 +168,8 @@ export const CartProvider = ({ children }) => {
     removeFromCart,
     clearCart,
     getCartItemCount,
-    getCartTotal
+    getCartTotal,
   };
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
