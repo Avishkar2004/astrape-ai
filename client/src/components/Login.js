@@ -37,83 +37,98 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-secondary-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 animate-fade-in">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-xl">A</span>
+          <div className="mx-auto h-16 w-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center shadow-lg animate-float">
+            <span className="text-white font-bold text-2xl">A</span>
           </div>
-          <h2 className="mt-6 text-3xl font-bold text-secondary-900">
+          <h2 className="mt-8 text-4xl font-bold gradient-text">
             Welcome back
           </h2>
-          <p className="mt-2 text-sm text-secondary-600">
-            Sign in to your account to continue
+          <p className="mt-3 text-lg text-gray-600">
+            Sign in to your account to continue shopping
           </p>
         </div>
         
-        <div className="card p-8">
+        <div className="card p-10 animate-slide-up" style={{animationDelay: '0.2s'}}>
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="mb-8 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center animate-scale-in">
+              <svg className="w-5 h-5 mr-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
               {error}
             </div>
           )}
           
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-secondary-700 mb-2">
-                Email address
+          <form className="space-y-8" onSubmit={handleSubmit}>
+            <div className="space-y-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
+                📧 Email address
               </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="input-field"
-                placeholder="Enter your email"
-              />
+              <div className="relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="input-field pl-12"
+                  placeholder="Enter your email"
+                />
+                <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                </svg>
+              </div>
             </div>
             
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-secondary-700 mb-2">
-                Password
+            <div className="space-y-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">
+                🔒 Password
               </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="input-field"
-                placeholder="Enter your password"
-              />
+              <div className="relative">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className="input-field pl-12"
+                  placeholder="Enter your password"
+                />
+                <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
             </div>
             
             <button 
               type="submit" 
               disabled={loading} 
-              className="w-full btn-primary py-3 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn-primary py-4 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-glow transition-all duration-300"
             >
               {loading ? (
                 <div className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
+                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
                   Signing in...
                 </div>
               ) : (
-                'Sign in'
+                <span className="flex items-center justify-center">
+                  <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                  </svg>
+                  Sign in
+                </span>
               )}
             </button>
           </form>
           
-          <div className="mt-6 text-center">
-            <p className="text-sm text-secondary-600">
+          <div className="mt-8 text-center">
+            <p className="text-gray-600">
               Don't have an account?{' '}
-              <Link to="/register" className="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">
+              <Link to="/register" className="font-semibold text-primary-600 hover:text-primary-700 transition-colors duration-200 underline decoration-2 underline-offset-2">
                 Sign up
               </Link>
             </p>

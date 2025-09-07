@@ -8,7 +8,6 @@ import Cart from "./components/Cart";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import "./App.css";
-import "./tailwind-test.css";
 
 function App() {
   return (
