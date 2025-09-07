@@ -1,0 +1,11 @@
+.App {
+  @apply min-h-screen flex flex-col bg-secondary-50;
+}
+
+.main-content {
+  @apply flex-1 pt-6;
+}
+
+.loading {
+  @apply text-center py-10 text-lg text-secondary-600;
+}
